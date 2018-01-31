@@ -1,0 +1,217 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+	<title>Code Project Kristman </title>
+	<script src="jquery.min.js"></script>
+	<style>
+
+	body{
+		margin: 0;
+		padding: 0;
+	}
+	#menubardiv{
+		position: relative;
+		width: 100%;
+		height: 80px;
+		float: left;
+		background-color: lightgray;
+	}
+
+	#logo{
+		position: absolute;
+		bottom: 5px;
+		left: 15px;
+		float: left;
+		font-family: Arial;
+		font-size: 2.5em;
+
+	}
+
+	#menu{
+		position: relative;
+		width: 388px;
+		bottom: -22px;
+		margin: 0 auto;
+		font-size: 1.7em;
+	}
+
+	ul{
+		margin: 0;
+		padding: 0px;
+		height: 51px;
+		list-style-type: none;
+		border: 2px solid black;
+		border-radius: 10px;
+	}
+
+	ul li{
+		float: left;
+		padding: 10px 20px;
+		border-right: 1px solid gray;
+		background-color: lightblue;
+	}
+
+	li#html{
+		border-top-left-radius: 6px;
+		border-bottom-left-radius: 6px;
+	}
+
+	li#result{
+		border-top-right-radius: 6px;
+		border-bottom-right-radius: 6px;
+	}
+
+	#buttondiv{
+		position: absolute;
+		float: right;
+		right: 30px;
+		bottom: 10px;
+	}
+
+	button{
+		font-size: 1.8em;
+		padding: 5px;
+	}
+
+	.clear{
+		clear: both;
+	}
+
+	.codeContainer{
+		position: relative;
+		float: left;
+		width: 50%;
+		-webkit-box-sizing: border-box;
+		border-right: 1px solid black;
+	}
+
+	textarea{
+		font-size: 1.3em;
+		width: 100%;
+		height: 100%;
+		border: none;
+		resize: none;
+		-webkit-box-sizing: border-box;  /*onemogucuje povecanje textarea */
+		padding: 30px;
+	}
+
+	iframe{
+		width: 100%;
+		height: 100%;
+		border: none;
+	}
+
+	.label{
+		position: absolute;
+		padding: 5px;
+		top: 20px;
+		right: 20px;
+		border: 1px solid red;
+		border-radius: 5px;
+	}
+
+	li.selected{
+		background-color: gray;
+	}
+
+	#CSScontainer, #JScontainer{
+		display:none;
+	}
+
+
+	</style>
+</head>
+
+<body>
+
+<!--Kreiranje menu bara-->
+<div id="menubardiv">
+
+	<div id="logo">CodePlayer</div>
+
+	<div id="menu">
+	<ul>
+		<li class="selected" id="html">HTML</li>
+		<li id="css">CSS</li>
+		<li id="js">JS</li>
+		<li class="selected" id="result" style="border-right: none">Result</li>
+	</ul>
+	</div>
+
+	<div id="buttondiv"><button> Run </button></div>
+
+</div>
+<div class="clear"></div>
+
+<!--Kreiranje kontenjera za kod -->
+
+<div class="codeContainer" id="HTMLcontainer">
+<textarea id="HTMLcode"></textarea> 
+<div class="label"> HTML </div>
+</div>
+
+
+<div class="codeContainer" id="CSScontainer">
+<textarea id="CSScode"></textarea> 
+<div class="label"> CSS </div>
+</div>
+
+<div class="codeContainer" id="JScontainer">
+<textarea id="JScode"></textarea> 
+<div class="label"> JS </div>
+</div>
+
+<div class="codeContainer" id="RESULTcontainer">
+<iframe> </iframe> 
+<div class="label"> RESULT </div>
+</div>
+
+<script>
+var menuHeight = $("#menubardiv").height();
+var windowHeight = $(window).height();
+var containerHeight = (windowHeight - menuHeight) - 4;
+$(".codeContainer").height(containerHeight);
+
+$("#html").click(function(){
+	$(this).toggleClass("selected");
+	$("#HTMLcontainer").toggle();
+	setWidth();
+});
+
+$("#css").click(function(){
+	$(this).toggleClass("selected");
+	$("#CSScontainer").toggle();
+	setWidth();
+});
+
+$("#js").click(function(){
+	$(this).toggleClass("selected");
+	$("#JScontainer").toggle();
+	setWidth();
+});
+
+$("#result").click(function(){
+	$(this).toggleClass("selected");
+	$("#RESULTcontainer").toggle();
+	setWidth();
+});
+
+$("button").click(function(){
+	$("iframe").contents().find("html").html("<style>"+$("#CSScode").val()+"</style>"+$("#HTMLcode").val());
+	eval($("#JScode").val());
+})
+
+function setWidth(){
+	var numberOfContainers = $(".codeContainer").filter(function(){
+	return $(this).css("display") != "none";
+	}).length;
+	width = 100 / numberOfContainers;
+	$(".codeContainer").css("width", width+"%");
+	
+};
+
+
+
+</script>
+</body>
+</html>
